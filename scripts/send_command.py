@@ -1,6 +1,6 @@
 import requests
 import os
-from scripts.parse_ports import read_or_write_port
+from scripts.parse_ports import main_port
 
 def send_command(comm):    
 
@@ -9,8 +9,8 @@ def send_command(comm):
     os.envirot['SAVE_PATH'] = comm['SAVE_PATH']
     os.envirot['CURRENT_FILE'] = comm['CURRENT_FILE']
 
-    
+    address = main_port()
 
-    result = requests.get(f"{address}:{port}?command={comm['COMMAND']}")
+    result = requests.get(f"{address}?command={comm['COMMAND']}")
 
     return result
