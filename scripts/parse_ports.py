@@ -61,6 +61,7 @@ def main_port():
     non_busy_port = current_ports[non_busy_index]
 
     if not test_port_free(non_busy_port):
+        test_or_assign_port_busy(non_busy_port, action="assign")
         return generate_address(non_busy_port)
 
     return generate_address(8000)
