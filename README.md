@@ -40,3 +40,5 @@ Returns: {"text_set": True | False}
 ```
 
 Run this after you've changed the JSONs. It will change the file, provided CEP is running.
+
+TODO: Add Rendering

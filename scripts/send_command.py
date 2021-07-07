@@ -1,8 +1,6 @@
 import requests
 import os
-from dotenv import dotenv_values
-
-temp = dotenv_values(".env")
+from scripts.parse_ports import read_or_write_port
 
 def send_command(comm):    
 
@@ -12,7 +10,7 @@ def send_command(comm):
     os.envirot['CURRENT_FILE'] = comm['CURRENT_FILE']
 
     
-    address = temp["ADDRESS"]
-    port = temp["PORT"]
 
     result = requests.get(f"{address}:{port}?command={comm['COMMAND']}")
+
+    return result
