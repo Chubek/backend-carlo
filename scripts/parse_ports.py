@@ -19,11 +19,23 @@ def test_or_assign_port_busy(port, action="test"):
             return True
         else:
             return False
-    else:
+    elif action == "assign":
         with open(temp['BUSY_PORT_LOC'] + ".port", "a" if os.path.exists(temp['BUSY_PORT_LOC'] + '.port') else 'w') as pf:
             pf.write(f"{port}\n")
 
         return []
+    elif action == "unassign":
+        with open(temp['BUSY_PORT_LOC'] + ".port", 'r') as pf:
+            ports = pf.readlines()
+        busy_ports = list(set([int(p.strip()) for p in ports]))
+
+        if port in busy_ports:
+            busy_ports = busy_ports.remove(port)
+            with open(temp['BUSY_PORT_LOC'] + ".port", 'w') as pf:
+                pf.writelines(busy_ports)
+                return True
+        else:
+            return False
 
 
 
