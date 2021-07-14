@@ -37,7 +37,12 @@ The following table lists the endpoints of this backend:
 
 
 # Environment Variables
-Create a file called `.env` in the root. It should contain one key and one key only, `PATH_TO_PREMIERE`, poiting to the EXE file of Premiere.
+Create a file called `.env` in the root. It should contain the following environment variables:
+
+|ASSIGN_PORT_LOC|A text file that contains all the assigned ports, no need to create it.|
+|BUSY_PORT_LOC|A text file that contains all the busy ports. No need to document it.|
+|ADDRESS|Your address, like localhost.|
+|PATH_TO_PREMIERE|Path to Premiere executable file.|
 
 
 # How to Set Up?
