@@ -1,7 +1,7 @@
 import subprocess
 import os
 from dotenv import dotenv_values
-import scripts.parse_ports as pp
+import parse_ports as pp
 import sandboxie
 temp = dotenv_values(".env")
 
@@ -19,10 +19,11 @@ def run_stop_premiere(port, action="start"):
 
         try:
             proc = sbie.execute([temp['PATH_TO_PREMIERE']], f'{port}')
-            wait_res = proc.wait()
-
-            if wait_res:
-                pp.read_or_write_port(port=port)
+            
+            if proc:
+                return True
+            else:
+                return False
 
         except:
             return False
@@ -36,4 +37,6 @@ def run_stop_premiere(port, action="start"):
         except:
             return False
 
+
+run_stop_premiere(8004)
 
