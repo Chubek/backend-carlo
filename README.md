@@ -39,6 +39,8 @@ The following table lists the endpoints of this backend:
 # Environment Variables
 Create a file called `.env` in the root. It should contain the following environment variables:
 
+|Variable|Job|
+|--------|---|
 |ASSIGN_PORT_LOC|A text file that contains all the assigned ports, no need to create it.|
 |BUSY_PORT_LOC|A text file that contains all the busy ports. No need to document it.|
 |ADDRESS|Your address, like localhost.|
