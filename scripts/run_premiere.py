@@ -38,5 +38,4 @@ def run_stop_premiere(port, action="start"):
             return False
 
 
-run_stop_premiere(8004)
 

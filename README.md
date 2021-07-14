@@ -1,44 +1,52 @@
-# To Tanami:
+# Media Translator Backend
 
-Please make a README based on the flask app.
+This is the backend for Media Translator. It gets, changes, and sets MOGRTs using Premiere application. It also has the ability to launch more than once instance of Premire with with the exchange CEP panel starting on different ports.
 
-How to use:
 
-1- You need Premiere running, with the CEP panel that I've made.
+# How it works
+## CEP Panel
+This backend requires a CEP panel made by me. This CEP panel runs two JSX files, one that gets MOGRTs and one that sets MOGRTs.
 
-2- Endpoints:
-
-```
-/get_txt_jsons
-
-BODY PARAMS: project_id, job_id, save_path, current_file
-
-Returns: {"jsons": parse_jsons(json_file)}
-```
-
-Create text fields for these jsons. Let users edit them. Run Length should change based on the changed text length.
-
+You can download the CEP panel from here:
 
 ```
-/change_jsons
+ https://github.com/Chubek/cep-panel-for-carlo
+ ```
 
-BODY PARAMS: save_path, req_jsons
+ ## Getting and Setting MOGRTs
+So here's how it works. You first send a request to `/get_txt_jsons`, given a save path, and your current `.prproj` file. It will exract the texts, and save them in the save path as a singular JSON file that resembles `sample_json.json`.
 
-Returns: {"save_result": save_jsons(json_file, req_jsons)}
-```
+After that is all done, you should change the JSONs yourself or via a frontend. In casae of the latter, please send a request to `/change_jsons`. It will change the JSON file based on the jsons in the request body.
 
-This saves the changed JSONs in the file.
+Then send a request to `/set_txt_jsons`. It will set the MOGRTs for the file based on the saved JSON.
+
+## Starting a Premiere Instance
+This is a concurrent application. It uses Sandboxie to launch multiple instances of Premiere. Even if you're testing it locally, DO NOT run Premiere yourself. Use `/op_prem_instance`. It will launch a Premiere instance with the CEP panel's port set to the port youp give it. You can also stop a certain instance using this endpoint.
 
 
-```
-/set_txt_jsons
+# Endpoints
 
-BODY PARAMS: project_id, job_id, save_path, current_file
+The following table lists the endpoints of this backend:
 
-Returns: {"text_set": True | False}
+|Endpoint|Body/Args|Job|
+|--------|---------|---|
+|GET /op_prem_instance?port=port&action=action|action: start or stop<br> port: Target port|Starts or stops a Premiere instance|
+|POST /get_txt_jsons|project_id: ID of the project, can be anything<br> job_id: ID of the job, can be anything<br>save_path: Path to save the JSONs<br>current_file: Current prproj file|Gets the MOGRTs and saves them in a folder|
+|POST /set_txt_jsons|project_id: ID of the project, can be anything<br> job_id: ID of the job, can be anything<br>save_path: Path to the saved the JSONs<br>current_file: Current prproj file|Sets the MOGRTs based on what is in the folder|
+|POST /change_jsons|save_path: Path to the JSONs<br>req_jsons: An array of JSONs you have changed, refer to `sample_jsons.json`.|Change JSONs in folder.|
 
-```
 
-Run this after you've changed the JSONs. It will change the file, provided CEP is running.
+# Environment Variables
+Create a file called `.env` in the root. It should contain one key and one key only, `PATH_TO_PREMIERE`, poiting to the EXE file of Premiere.
 
-TODO: Add Rendering
+
+# How to Set Up?
+1. Clone.
+2. Create a Conva env or a VirtualEnv.
+3. `pip install -r requirements.txt`
+4. Run the [pywin32 post install script](https://github.com/mhammond/pywin32#installing-via-pip)
+5. Run `python prem_app.py`
+
+
+# Notes
+This app is still in the testing stage. Report errors to Chubak#7400.

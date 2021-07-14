@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
-from parse_json import *
-from send_command import *
+from scripts.parse_json import *
+from scripts.send_command import *
+from scripts.run_premiere import *
 import os
 import glob
 
@@ -21,8 +22,8 @@ def send_jsons():
         return jsonify({"jsons": "An error occured"})
 
 
-@app.route("change_jsons", methods=["POST"])
-def send_jsons():
+@app.route("/change_jsons", methods=["POST"])
+def change_jsons():
     save_path, req_jsons = request.body
 
 
@@ -32,8 +33,8 @@ def send_jsons():
     
 
 
-@app.route("set_txt_jsons", methods=["POST"])
-def send_jsons():
+@app.route("/set_txt_jsons", methods=["POST"])
+def set_jsons():
     project_id, job_id, save_path, current_file = request.body
 
     command_result = send_command({"PROJECT_ID": project_id, "JOB_ID": job_id, "SAVE_PATH": save_path, "CURRENT_FILE": current_file, "COMMAND": "set_text"})
@@ -43,6 +44,14 @@ def send_jsons():
     else:
         return jsonify({"text_set": False})
 
+@app.route("/op_prem_instance", methods=["GET"])
+def start_prem():
+    port = request.args['port']
+    start_stop = "start" if request.args['action'].lower() == "start" else "stop"
+
+    res = run_stop_premiere(port, action=start_stop)
+
+    return jsonify({"result": res})
 
 if __name__ == "__main__":
     app.run()

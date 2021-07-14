@@ -74,9 +74,9 @@ def main_port():
 
     if not test_port_free(non_busy_port):
         test_or_assign_port_busy(non_busy_port, action="assign")
-        return generate_address(non_busy_port)
+        return generate_address(non_busy_port), non_busy_port
 
-    return generate_address(8000)
+    return generate_address(8000), 8000
 
 
 

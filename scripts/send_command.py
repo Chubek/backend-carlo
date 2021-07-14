@@ -2,14 +2,15 @@ import requests
 import os
 from scripts.parse_ports import main_port
 
-def send_command(comm):    
+def send_command(comm):
 
-    os.envirot['PROJECT_ID'] = comm['PROJECT_ID']
-    os.envirot['JOB_ID'] = comm['JOB_ID']
-    os.envirot['SAVE_PATH'] = comm['SAVE_PATH']
-    os.envirot['CURRENT_FILE'] = comm['CURRENT_FILE']
+    address, port = main_port()
 
-    address = main_port()
+    os.environ['CURRENT_PORT'] = port
+
+    
+    os.environ[f'PARAMS_PORT_{port}'] = f'{comm["PROJECT_ID"]};{comm["JOB_ID"]};{comm["SAVE_PATH"]};{comm["CURRENT_FILE"]}'
+    
 
     result = requests.get(f"{address}?command={comm['COMMAND']}")
 
