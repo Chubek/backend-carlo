@@ -1,7 +1,7 @@
 import subprocess
 import os
 from dotenv import dotenv_values
-import parse_ports as pp
+import scripts.parse_ports as pp
 import sandboxie
 temp = dotenv_values(".env")
 
