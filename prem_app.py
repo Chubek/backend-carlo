@@ -1,12 +1,15 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from scripts.parse_json import *
 from scripts.send_command import *
 from scripts.run_premiere import *
-import os
 import glob
 
 app = Flask(__name__)
 
+
+@app.route("/")
+def template_render():
+    return render_template('index.html')
 
 @app.route("/get_txt_jsons", methods=["POST"])
 def send_jsons():
